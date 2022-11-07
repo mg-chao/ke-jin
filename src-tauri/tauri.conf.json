@@ -56,11 +56,13 @@
         "windows": [
             {
                 "fullscreen": false,
-                "height": 600,
+                "height": 720,
+                "center": true,
                 "resizable": true,
-                "title": "next-app",
-                "width": 800
+                "title": "HL Events",
+                "width": 1280
             }
-        ]
+        ],
+        "systemTray": { "iconPath": "./icons/icon.ico" }
     }
 }

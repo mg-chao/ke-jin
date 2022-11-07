@@ -3,9 +3,15 @@
         "eslint:recommended",
         "next",
         "prettier",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended"
     ],
+    "plugins": ["unused-imports"],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "no-unused-vars": "error",
+        "react/self-closing-comp": ["error"],
+        "unused-imports/no-unused-imports": "error"
     }
 }
