@@ -8,7 +8,7 @@
         "export": "next export",
         "start": "next start",
         "tauri": "tauri",
-        "lint": "pnpm prettier -c --write \"pages/**/*\" && next lint && pnpm tsc"
+        "lint": "pnpm prettier --end-of-line lf -c --write \"./\"  && next lint && pnpm tsc"
     },
     "dependencies": {
         "@fluentui/react-components": "^9.6.3",
