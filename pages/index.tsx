@@ -1,86 +1,70 @@
 import Head from 'next/head';
-import * as React from 'react';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import { PageBar } from '../components/pageContainer';
+import { generatePageInfo } from '../utils/pageUtils';
+import { Box, Grid, IconButton, Paper, useTheme } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DialogForm, { DialogFormRef } from '../components/form/dialogForm';
+import { useRef } from 'react';
+import FormText from '../components/form/formText';
+
+export const pageInfo = generatePageInfo({ title: '事件', href: '/' });
+
+const TopBar: React.FC = () => {
+    const createEventRef = useRef<DialogFormRef>(null);
+    return (
+        <>
+            <DialogForm
+                title="新增事件"
+                ref={createEventRef}
+                onSubmit={async (values) => {
+                    console.log(values);
+                    return true;
+                }}
+            >
+                <FormText label="标题" required name="title" />
+            </DialogForm>
+            <PageBar
+                title={pageInfo.title}
+                extra={
+                    <IconButton
+                        onClick={() => {
+                            createEventRef.current?.show();
+                        }}
+                        aria-label="fingerprint"
+                    >
+                        <AddIcon />
+                    </IconButton>
+                }
+            />
+        </>
+    );
+};
 
 export default function Home() {
+    const theme = useTheme();
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
-                <title>首页</title>
-                <meta name="description" content="首页" />
+                <title>{pageInfo.title}</title>
+                <meta name="description" content={pageInfo.title} />
             </Head>
-
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
-                </h1>
-
-                <p className={styles.description}>
-                    Get started by editing{' '}
-                    <code className={styles.code}>pages/index.tsx</code>
-                </p>
-
-                <div className={styles.grid}>
-                    <a href="https://nextjs.org/docs" className={styles.card}>
-                        <h2>Documentation &rarr;</h2>
-                        <p>
-                            Find in-depth information about Next.js features and
-                            API.
-                        </p>
-                    </a>
-
-                    <a href="https://nextjs.org/learn" className={styles.card}>
-                        <h2>Learn &rarr;</h2>
-                        <p>
-                            Learn about Next.js in an interactive course with
-                            quizzes!
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://github.com/vercel/next.js/tree/canary/examples"
-                        className={styles.card}
-                    >
-                        <h2>Examples &rarr;</h2>
-                        <p>
-                            Discover and deploy boilerplate example Next.js
-                            projects.
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.card}
-                    >
-                        <h2>Deploy &rarr;</h2>
-                        <p>
-                            Instantly deploy your Next.js site to a public URL
-                            with Vercel.
-                        </p>
-                    </a>
-                </div>
-            </main>
-
-            <footer className={styles.footer}>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <span className={styles.logo}>
-                        <Image
-                            src="/vercel.svg"
-                            alt="Vercel Logo"
-                            width={72}
-                            height={16}
-                        />
-                    </span>
-                </a>
-            </footer>
+            <TopBar />
+            <Box sx={{ padding: theme.spacing(2) }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Paper>xs=8</Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper>xs=8</Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper>xs=8</Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper>xs=8</Paper>
+                    </Grid>
+                </Grid>
+            </Box>
         </div>
     );
 }
