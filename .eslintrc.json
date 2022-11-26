@@ -11,12 +11,18 @@
     ],
     "plugins": ["unused-imports"],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+            "error",
+            {
+                "singleQuote": false
+            }
+        ],
         "react/self-closing-comp": ["error"],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
         "@typescript-eslint/no-explicit-any": "off",
-        "unused-imports/no-unused-imports": "error"
+        "unused-imports/no-unused-imports": "error",
+        "react/prop-types": "off"
     },
     "globals": {
         "JSX": "readonly",

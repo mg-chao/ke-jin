@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "kejin"
 version = "0.1.0"
-description = "A Tauri App"
+description = "To Do program"
 authors = ["you"]
 license = ""
 repository = ""
-default-run = "app"
+default-run = "kejin"
 edition = "2021"
 rust-version = "1.57"
 
@@ -18,11 +18,13 @@ tauri-build = { version = "1.1.1", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.1.1", features = ["fs-all", "system-tray"] }
+sqlx = { version = "0.6", features = ["runtime-tokio-rustls", 'sqlite'] }
+tokio = { version = "1", features = ["full"] }
 
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
-default = [ "custom-protocol" ]
+default = ["custom-protocol"]
 # this feature is used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
-custom-protocol = [ "tauri/custom-protocol" ]
+custom-protocol = ["tauri/custom-protocol"]

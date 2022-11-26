@@ -1,13 +1,13 @@
 {
     "$schema": "../node_modules/@tauri-apps/cli/schema.json",
     "build": {
-        "beforeBuildCommand": "npm run build",
+        "beforeBuildCommand": "npm run build && npm run export",
         "beforeDevCommand": "npm run dev",
         "devPath": "http://localhost:3001",
         "distDir": "../out"
     },
     "package": {
-        "productName": "next-app",
+        "productName": "可今",
         "version": "0.1.0"
     },
     "tauri": {

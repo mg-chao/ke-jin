@@ -4,5 +4,11 @@
         "stylelint-config-prettier",
         "stylelint-config-standard-scss",
         "stylelint-config-prettier-scss"
-    ]
+    ],
+    "plugins": ["stylelint-order"],
+    "rules": {
+        "selector-class-pattern": null,
+        "selector-id-pattern": null,
+        "color-function-notation": "modern"
+    }
 }

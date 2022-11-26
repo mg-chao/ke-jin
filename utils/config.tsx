@@ -3,17 +3,17 @@ import {
     createDir,
     readTextFile,
     writeFile,
-} from '@tauri-apps/api/fs';
-import path from 'path';
-import AppInfo from './appInfo';
+} from "@tauri-apps/api/fs";
+import path from "path";
+import AppInfo from "./appInfo";
 import {
     CommonError,
     CommonErrorCode,
     FileError,
     FileErrorCode,
     FileErrorType,
-} from './errors';
-import { defu } from 'defu';
+} from "./errors";
+import { defu } from "defu";
 
 export const CONFIG_BASE_DIR = BaseDirectory.Config;
 export const CONFIG_DIR_PATH = AppInfo.symbol;
@@ -36,7 +36,7 @@ export interface AppConfig {
  * @returns 新配置
  */
 export const createConfig = (config?: AppConfig): AppConfig => {
-    return defu(config, {
+    return defu(config ?? {}, {
         darkMode: false,
     });
 };
@@ -55,14 +55,14 @@ export const updateConfig = async (
             FileErrorCode.NoPermission,
             CONFIG_FILE_PATH,
             FileErrorType.Directory,
-            '创建配置目录失败',
+            "创建配置目录失败",
         );
     }
     try {
         await writeFile(
             {
                 contents:
-                    typeof config === 'string'
+                    typeof config === "string"
                         ? config
                         : JSON.stringify(config),
                 path: filePath ?? CONFIG_FILE_PATH,
@@ -76,7 +76,7 @@ export const updateConfig = async (
             FileErrorCode.NoPermission,
             CONFIG_FILE_PATH,
             FileErrorType.File,
-            '保存配置失败',
+            "保存配置失败",
         );
     }
 };
@@ -99,7 +99,7 @@ export const getConfig = async () => {
         updateConfig(text, `${CONFIG_FILE_PATH}.${new Date().valueOf()}.bak`);
         throw new CommonError(
             CommonErrorCode.ParseError,
-            '解析配置错误，配置文件或已损坏',
+            "解析配置错误，配置文件或已损坏",
         );
     }
 };

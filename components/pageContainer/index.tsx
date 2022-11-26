@@ -18,49 +18,51 @@ import {
     Toolbar,
     Typography,
     useTheme,
-} from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import MuiDrawer from '@mui/material/Drawer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppConfigContext } from '../configWrapper';
-import Image from 'next/image';
-import { pageInfo as homePageInfo } from '../../pages/index';
-import { FormatListNumberedRtl } from '@mui/icons-material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+} from "@mui/material";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import MuiDrawer from "@mui/material/Drawer";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { AppConfigContext } from "../configWrapper";
+import Image from "next/image";
+import { pageInfo as homePageInfo } from "../../pages/index";
+import { FormatListNumberedRtl } from "@mui/icons-material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import styles from '../../styles/globals.module.scss';
+import styles from "../../styles/globals.module.scss";
 
-import kejinIMG from '../../public/images/kejin.png';
-import { useRouter } from 'next/router';
+import kejinIMG from "../../public/images/kejin.png";
+import { useRouter } from "next/router";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 const drawerWidth = 200;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
-    overflowX: 'hidden',
+    overflowX: "hidden",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    overflowX: 'hidden',
+    overflowX: "hidden",
     width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
         width: `calc(${theme.spacing(8)} + 1px)`,
     },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
 }));
@@ -70,15 +72,15 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
     zIndex: theme.zIndex.appBar,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
-        transition: theme.transitions.create(['width', 'margin'], {
+        transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -86,19 +88,19 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
     ...(open && {
         ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme),
+        "& .MuiDrawer-paper": openedMixin(theme),
     }),
     ...(!open && {
         ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
+        "& .MuiDrawer-paper": closedMixin(theme),
     }),
 }));
 
@@ -109,11 +111,11 @@ const DrawerListItem: React.FC<{
 }> = ({ text, icon, onClick }) => {
     const { open } = useContext(PageContainerDrawerContext);
     return (
-        <ListItem disablePadding sx={{ display: 'block' }}>
+        <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
                 sx={{
                     minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
+                    justifyContent: open ? "initial" : "center",
                     px: 2.5,
                 }}
                 onClick={onClick}
@@ -121,8 +123,8 @@ const DrawerListItem: React.FC<{
                 <ListItemIcon
                     sx={{
                         minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
                     }}
                 >
                     {icon}
@@ -141,7 +143,7 @@ const Logo: React.FC = () => {
         <div className={styles.logo}>
             <Button className={styles.button} sx={{ padding: 0 }}>
                 <Image
-                    style={{ opacity: darkMode ? 0.64 : 1 }}
+                    style={{ opacity: darkMode ? 0.83 : 1 }}
                     src={kejinIMG}
                     alt="kejin"
                     height={32}
@@ -155,9 +157,7 @@ export const PageBar: React.FC<{
     title: React.ReactNode;
     extra?: React.ReactNode;
 }> = ({ title, extra }) => {
-    const { open, openDrawer, closeDrawer } = useContext(
-        PageContainerDrawerContext,
-    );
+    const { open, openDrawer } = useContext(PageContainerDrawerContext);
     const theme = useTheme();
     return (
         <AppBar
@@ -166,22 +166,24 @@ export const PageBar: React.FC<{
             sx={{
                 marginLeft: { xs: 0, sm: open ? drawerWidth : 0 },
                 width: {
-                    xs: '100%',
-                    sm: open ? `calc(100% - ${drawerWidth}px)` : '100%',
+                    xs: "100%",
+                    sm: open ? `calc(100% - ${drawerWidth}px)` : "100%",
                 },
                 zIndex: {
                     xs: theme.zIndex.appBar,
                     sm: theme.zIndex.drawer + 1,
                 },
-                top: { xs: 'auto', sm: 0 },
-                bottom: { xs: 0, sm: 'auto' },
+                top: { xs: "auto", sm: 0 },
+                bottom: { xs: 0, sm: "auto" },
             }}
         >
             <Toolbar>
                 <IconButton
                     aria-label="open drawer"
-                    onClick={() => {
-                        (open ? closeDrawer : openDrawer)();
+                    color="inherit"
+                    onClick={openDrawer}
+                    sx={{
+                        ...(open && { display: "none" }),
                     }}
                     edge="start"
                 >
@@ -192,10 +194,10 @@ export const PageBar: React.FC<{
                     justifyContent="space-between"
                     alignItems="center"
                     spacing={0}
-                    width={'100%'}
+                    width={"100%"}
                 >
                     <Typography component="div">{title}</Typography>
-                    <div>{extra}</div>
+                    <Typography component="div">{extra}</Typography>
                 </Stack>
             </Toolbar>
         </AppBar>
@@ -206,46 +208,46 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
     height: 24,
     padding: 6,
     width: 48,
-    '& .MuiSwitch-switchBase': {
+    "& .MuiSwitch-switchBase": {
         margin: 0,
         padding: 0,
-        transform: 'translateX(6px)',
-        '&.Mui-checked': {
-            color: '#fff',
-            transform: 'translateX(24px)',
-            '& .MuiSwitch-thumb:before': {
+        transform: "translateX(6px)",
+        "&.Mui-checked": {
+            color: "#fff",
+            transform: "translateX(24px)",
+            "& .MuiSwitch-thumb:before": {
                 backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-                    '#fff',
+                    "#fff",
                 )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
             },
-            '& + .MuiSwitch-track': {
+            "& + .MuiSwitch-track": {
                 opacity: 1,
                 backgroundColor:
-                    theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+                    theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
             },
         },
     },
-    '& .MuiSwitch-thumb': {
-        backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+    "& .MuiSwitch-thumb": {
+        backgroundColor: theme.palette.mode === "dark" ? "#003892" : "#001e3c",
         width: 24,
         height: 24,
-        '&:before': {
+        "&:before": {
             content: "''",
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
             left: 0,
             top: 0,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
             backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-                '#fff',
+                "#fff",
             )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
         },
     },
-    '& .MuiSwitch-track': {
+    "& .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+        backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
         borderRadius: 20 / 2,
     },
 }));
@@ -277,7 +279,7 @@ const PageContainerDrawer: React.FC = () => {
                 </IconButton>
             </DrawerHeader>
             <Divider />
-            <Box height={'100%'}>
+            <Box height={"100%"}>
                 <List>
                     <DrawerListItem
                         text={homePageInfo.title}
@@ -304,7 +306,7 @@ const PageContainerDrawer: React.FC = () => {
                     />
                     {open && (
                         <Typography variant="body2">
-                            {darkMode ? '夜间' : '明亮'}
+                            {darkMode ? "夜间" : "明亮"}
                         </Typography>
                     )}
                 </Stack>
@@ -317,7 +319,7 @@ const PageContainerDrawer: React.FC = () => {
             <Drawer
                 variant="permanent"
                 open={open}
-                sx={{ display: { sm: 'block', xs: 'none' } }}
+                sx={{ display: { sm: "block", xs: "none" } }}
             >
                 {drawerChildren}
             </Drawer>
@@ -329,9 +331,9 @@ const PageContainerDrawer: React.FC = () => {
                     keepMounted: true,
                 }}
                 sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': {
-                        boxSizing: 'border-box',
+                    display: { xs: "block", sm: "none" },
+                    "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
                         width: drawerWidth,
                     },
                 }}
@@ -361,7 +363,7 @@ export const PageContainerDrawerContext =
 
 const darkTheme = createTheme({
     palette: {
-        mode: 'dark',
+        mode: "dark",
     },
 });
 
@@ -390,32 +392,34 @@ const PageContainer: React.FC<{ children: React.ReactNode }> = ({
     }, [darkMode]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <PageContainerDrawerContext.Provider
-                value={{
-                    open,
-                    openDrawer,
-                    closeDrawer,
-                }}
-            >
-                <div className={styles.pageContainer}>
-                    <PageContainerDrawer />
-                    <Box
-                        component="main"
-                        sx={{
-                            paddingTop: { xs: 0, sm: theme.spacing(8) },
-                            paddingBottom: { xs: theme.spacing(7), sm: 0 },
-                            height: '100vh',
-                            width: '100vw',
-                            maxHeight: '100vh',
-                            bgcolor: theme.palette.background.paper,
-                        }}
-                    >
-                        {children}
-                    </Box>
-                </div>
-            </PageContainerDrawerContext.Provider>
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+            <ThemeProvider theme={theme}>
+                <PageContainerDrawerContext.Provider
+                    value={{
+                        open,
+                        openDrawer,
+                        closeDrawer,
+                    }}
+                >
+                    <div className={styles.pageContainer}>
+                        <PageContainerDrawer />
+                        <Box
+                            component="main"
+                            sx={{
+                                paddingTop: { xs: 0, sm: theme.spacing(8) },
+                                paddingBottom: { xs: theme.spacing(7), sm: 0 },
+                                height: "100vh",
+                                width: "100vw",
+                                maxHeight: "100vh",
+                                bgcolor: theme.palette.background.paper,
+                            }}
+                        >
+                            {children}
+                        </Box>
+                    </div>
+                </PageContainerDrawerContext.Provider>
+            </ThemeProvider>
+        </LocalizationProvider>
     );
 };
 

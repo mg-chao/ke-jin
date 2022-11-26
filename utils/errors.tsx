@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 /**
  * 100-199
  */
@@ -47,11 +45,11 @@ export class FileError extends CommonError {
     static convertTypeToString(type?: FileErrorType): string {
         switch (type) {
             case FileErrorType.File:
-                return '文件';
+                return "文件";
             case FileErrorType.Directory:
-                return '目录';
+                return "目录";
             default:
-                return '文件/目录';
+                return "文件/目录";
         }
     }
 

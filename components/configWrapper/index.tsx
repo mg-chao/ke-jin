@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 import AppConfig, {
     createConfig,
     getConfig,
     updateConfig,
-} from '../../utils/appConfig';
-import { CommonError, FileError } from '../../utils/errors';
-import { useAppSnackbar } from '../snackbarNotistack';
+} from "../../utils/config";
+import { CommonError, FileError } from "../../utils/errors";
+import { useAppSnackbar } from "../snackbarNotistack";
 export interface AppConfigContextValue {
     config: AppConfig;
     updateConfig: (config: AppConfig) => void;

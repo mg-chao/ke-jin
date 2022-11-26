@@ -1,45 +1,48 @@
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import {
     useState,
     useMemo,
     useEffect,
     useImperativeHandle,
-    ForwardedRef,
     useCallback,
     ComponentProps,
-} from 'react';
-import React from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Breakpoint } from '@mui/material';
-import Form from '..';
-import { FieldValues } from 'react-hook-form';
+    ReactNode,
+} from "react";
+import React from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Breakpoint } from "@mui/material";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FormContainer } from "../muiForm";
 
-export interface DialogFormRef {
+export type DialogAction = {
     show: () => void;
-}
+};
 
-export interface DialogFormProps extends ComponentProps<typeof Form> {
+export interface DialogFormProps<Values extends FieldValues> {
     trigger?: JSX.Element;
     open?: boolean;
     title?: string;
     width?: false | Breakpoint | undefined;
+    formProps?: ComponentProps<typeof FormContainer<Values>>;
+    children?: ReactNode;
+    onSuccess: SubmitHandler<Values>;
+    actionRef?: React.MutableRefObject<DialogAction | undefined>;
 }
 
-function DialogForm<Values extends FieldValues>(
-    {
-        trigger: propTrigger,
-        open: propOpen,
-        onSubmit: propOnSubmit,
-        title,
-        children,
-        width,
-    }: DialogFormProps,
-    ref: ForwardedRef<DialogFormRef>,
-) {
+function DialogForm<Values extends FieldValues>({
+    trigger: propTrigger,
+    open: propOpen,
+    onSuccess: propOnSuccess,
+    title,
+    children,
+    width,
+    formProps,
+    actionRef,
+}: DialogFormProps<Values>) {
     const [open, setOpen] = useState<boolean>(propOpen ?? false);
     useEffect(() => {
         setOpen(propOpen ?? false);
@@ -54,7 +57,7 @@ function DialogForm<Values extends FieldValues>(
     }, []);
 
     useImperativeHandle(
-        ref,
+        actionRef,
         () => ({
             show,
         }),
@@ -76,12 +79,12 @@ function DialogForm<Values extends FieldValues>(
     }, [propTrigger, show]);
 
     const [submitting, setSubmitting] = useState(false);
-    const onSubmit = useCallback(
+    const onSuccess: SubmitHandler<Values> = useCallback(
         async (values: Values) => {
             let res;
             setSubmitting(true);
             try {
-                res = await propOnSubmit(values);
+                res = await propOnSuccess(values);
             } catch (e) {
                 res = false;
             }
@@ -90,15 +93,15 @@ function DialogForm<Values extends FieldValues>(
                 close();
             }
         },
-        [close, propOnSubmit],
+        [close, propOnSuccess],
     );
 
     return (
-        <div>
+        <>
             {trigger}
             <Dialog open={open} onClose={close} fullWidth maxWidth={width}>
-                {title && <DialogTitle>{title}</DialogTitle>}
-                <Form onSubmit={onSubmit}>
+                {title && <DialogTitle variant="body1">{title}</DialogTitle>}
+                <FormContainer<Values> onSuccess={onSuccess} {...formProps}>
                     <DialogContent>{children}</DialogContent>
                     <DialogActions>
                         <LoadingButton loading={submitting} type="submit">
@@ -106,10 +109,10 @@ function DialogForm<Values extends FieldValues>(
                         </LoadingButton>
                         <Button onClick={close}>取消</Button>
                     </DialogActions>
-                </Form>
+                </FormContainer>
             </Dialog>
-        </div>
+        </>
     );
 }
 
-export default React.forwardRef<DialogFormRef, DialogFormProps>(DialogForm);
+export default DialogForm;

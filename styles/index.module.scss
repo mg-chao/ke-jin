@@ -1,0 +1,32 @@
+@import "./globals.module";
+
+.event {
+    @extend %transition-background-color;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .checkbox {
+        flex-grow: 0;
+        display: inline-block;
+    }
+
+    .basicInfo {
+        flex-grow: 1;
+        padding-left: 8px;
+        display: inline-block;
+
+        .title {
+            word-break: break-all;
+            line-height: normal;
+            margin: 3px;
+        }
+
+        .desc {
+            word-break: break-all;
+            line-height: normal;
+            margin: 3px;
+        }
+    }
+}

@@ -10,3 +10,14 @@
         font-weight: bold;
     }
 }
+
+%transition {
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+}
+
+%transition-background-color {
+    @extend %transition;
+
+    transition-property: background-color;
+}

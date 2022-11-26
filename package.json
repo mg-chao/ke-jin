@@ -8,7 +8,7 @@
         "export": "next export",
         "start": "next start -p 3001",
         "tauri": "tauri",
-        "lint": "stylelint \"**/*.{scss,css}\" && pnpm prettier --end-of-line lf -c --write \"./\"  && next lint && pnpm tsc"
+        "lint": "stylelint \"**/*.{scss,css}\" --fix && pnpm prettier --end-of-line lf -c --write \"./\" --fix && next lint --fix && pnpm tsc"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -16,12 +16,16 @@
         "@mui/icons-material": "^5.10.9",
         "@mui/lab": "5.0.0-alpha.107",
         "@mui/material": "^5.10.12",
+        "@mui/x-date-pickers": "^5.0.7",
         "@tauri-apps/api": "^1.1.0",
         "@types/node": "18.11.9",
         "@types/react": "18.0.25",
         "@types/react-dom": "18.0.8",
+        "add": "^2.0.6",
         "defu": "^6.1.0",
         "eslint-plugin-unused-imports": "^2.0.0",
+        "linked-list": "^3.0.2",
+        "moment": "^2.29.4",
         "next": "13.0.2",
         "notistack": "^2.0.8",
         "react": "18.2.0",
@@ -42,6 +46,7 @@
         "stylelint": "^14.14.1",
         "stylelint-config-prettier": "^9.0.3",
         "stylelint-config-prettier-scss": "^0.0.1",
-        "stylelint-config-standard": "^29.0.0"
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-order": "^5.0.0"
     }
 }
